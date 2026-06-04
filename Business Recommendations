@@ -1,0 +1,73 @@
+# Findings & Business Recommendations
+
+## Key Findings
+
+### Finding 1 — Graph structure is the critical signal
+Isolation Forest on 167 raw anonymized features achieved 0% recall.
+It caught zero fraud. Not because the algorithm is weak, but because
+anonymized features alone carry no structural information about how
+transactions relate to each other in the network.
+
+Adding a single graph feature — transaction degree — and switching to
+a supervised, class-balanced Random Forest produced:
+- 99% accuracy
+- 100% precision on illicit transactions
+- 88% recall
+- AUC 0.997
+
+The feature matters more than the algorithm.
+
+### Finding 2 — Class imbalance must be addressed explicitly
+The dataset contains 42,019 licit transactions and 4,545 illicit ones — a 9:1 ratio.
+A naive model predicting everything as licit achieves 90% accuracy while catching
+zero fraud. Class-weighted training forces the model to treat each illicit transaction
+as 9 times more important during learning.
+
+### Finding 3 — Precision matters more than recall in this domain
+Logistic Regression achieved 93% recall but only 46% precision.
+More than half its fraud flags were false alarms.
+In an investigative context where analyst time is the bottleneck,
+a 46% precision rate means investigators spend more time chasing
+dead leads than confirmed fraud. The system loses credibility fast.
+
+Random Forest achieved 99.75% precision — nearly every flag is real.
+
+---
+
+## Business Recommendations
+
+**1. Deploy as a pre-screening layer**
+Out of 9,313 transactions in the test set, the model flagged 799 as illicit.
+Of those 799 flags, 797 were confirmed fraud — a false alarm rate of 0.25%.
+Without this model, an investigator reviewing all 9,313 transactions manually
+would spend 93% of their time on legitimate activity. This model reduces
+that wasted effort to near zero.
+
+**2. Threshold tuning based on operational capacity**
+The model assigns a fraud probability score to every transaction, not just
+a binary flag. The current threshold is 50%. Lowering it catches more fraud
+but generates more false alarms — suitable when analyst capacity is high.
+Raising it means every flag is near-certain fraud — suitable when
+investigator time is scarce. This is a business decision, not a technical one.
+
+**3. Retrain every 6 months minimum**
+The dataset covers 49 time steps of real Bitcoin activity. Fraud patterns
+in later time steps differ from earlier ones. Mixing techniques evolve,
+new scam structures emerge. A model trained on historical data degrades
+against new patterns. Retraining on fresh labeled data quarterly
+maintains detection performance.
+
+**4. Graph features are non-negotiable**
+Transaction degree alone transformed model performance from 0% to 88% recall.
+Future iterations should incorporate additional graph metrics:
+- Clustering coefficient — how tightly connected a wallet's neighbors are
+- Betweenness centrality — whether a wallet sits on many shortest paths, typical of mixing hubs
+- PageRank — recursive importance based on connection quality, not just quantity
+
+**5. Address label latency for production deployment**
+The Elliptic dataset provides clean labels assigned after the fact by forensic analysts.
+In production, labels arrive weeks or months after transactions — if at all.
+Law enforcement confirmations are slow. Exchange reports are incomplete.
+Production deployment requires an online learning architecture that
+incorporates delayed feedback without full retraining. This is the
+hardest open problem in production fraud detection.
