@@ -11,6 +11,22 @@ Detecting illicit transactions in the Bitcoin network using graph-enhanced machi
 | Recall (illicit) | 88% |
 | AUC-ROC | 0.997 |
 
+## Model Comparison
+
+| Model | AUC | Precision | Recall | F1 |
+|-------|-----|-----------|--------|----|
+| Logistic Regression | 0.9702 | 0.4638 | 0.9307 | 0.6191 |
+| Decision Tree | 0.9487 | 0.9056 | 0.9076 | 0.9066 |
+| **Random Forest** | **0.9966** | **0.9975** | **0.8768** | **0.9333** |
+
+Random Forest was selected for its near perfect precision. In an investigative context,
+every flag must be actionable. Logistic Regression's 46% precision means more than half
+its alerts are false alarms — operationally unacceptable when analyst time is the bottleneck.
+
+![Model Comparison](model_comparison.png)
+
+
+
 ## Dataset
 
 The [Elliptic Data Set](https://www.kaggle.com/datasets/ellipticco/elliptic-data-set) maps 203,769 Bitcoin transactions to real entities — exchanges, wallets, darknet markets, scams, ransomware, and Ponzi schemes. Download from Kaggle and place in `elliptic_bitcoin_dataset/`.
