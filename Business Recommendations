@@ -75,18 +75,18 @@ biggest gains remain.
 
 
 ## Graph Neural Network 
-##When to use each model
+## Which Model to Deploy
 
-An investigative team with limited analyst capacity should deploy the Random Forest. 
-Every flag it raises is confirmed fraud with near certainty. Investigators never 
-chase dead leads. The cost is missing roughly 9 out of 100 illicit transactions 
+An investigative team with limited analyst capacity should deploy the Random Forest.
+Every flag it raises is confirmed fraud with near certainty. Investigators never
+chase dead leads. The cost is missing roughly 9 out of 100 illicit transactions
 that the GNN would have caught.
 
-A team focused on maximum fraud volume for example, a compliance department 
-running automated pre-screening before human review  should use the GNN. It catches 
-91 out of 100 illicit transactions. The tradeoff is that roughly half its flags 
+A team focused on maximum fraud volume, for example a compliance department
+running automated pre-screening before human review, should use the GNN. It catches
+91 out of 100 illicit transactions. The tradeoff is that roughly half its flags
 require a second look before escalating to an investigator.
 
-The strongest production architecture runs both in sequence. The GNN casts the 
-wide net. The Random Forest validates before anything reaches a human desk. 
+The strongest production architecture runs both in sequence. The GNN casts the
+wide net. The Random Forest validates before anything reaches a human desk.
 Together they approach both high recall and high precision simultaneously.
