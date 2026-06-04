@@ -1,4 +1,4 @@
-graph enhanced machine learning# Bitcoin Fraud Detection — Blockchain Analytics
+Graph enhanced machine learning# Bitcoin Fraud Detection — Blockchain Analytics
 
 Detecting illicit transactions in the Bitcoin network using graph-enhanced machine learning on the Elliptic dataset.
 
