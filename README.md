@@ -56,6 +56,21 @@ it explains why blockchain fraud detection requires network-aware methods.
 ## Phase 2
 
 Graph Neural Network implementation on the same dataset, following the Elliptic/MIT paper methodology.
+## Phase 2: Graph Neural Network
+
+A 2-layer Graph Convolutional Network (GCN) implemented using PyTorch Geometric, operating directly on the full Bitcoin transaction graph of 203,769 nodes and 234,355 edges.
+
+Initial training without class weighting achieved 53% recall — the same class imbalance problem as the unweighted Random Forest. After applying class-weighted loss and extending to 200 epochs, recall improved to 91% with an AUC of 0.9656.
+
+| Model | AUC | Precision | Recall | F1 |
+|-------|-----|-----------|--------|----|
+| Logistic Regression | 0.9702 | 0.46 | 0.93 | 0.62 |
+| Decision Tree | 0.9487 | 0.91 | 0.91 | 0.91 |
+| Random Forest | 0.9966 | 1.00 | 0.88 | 0.93 |
+| GNN untuned | 0.9519 | 0.90 | 0.53 | 0.67 |
+| GNN class-weighted | 0.9656 | 0.52 | 0.91 | 0.66 |
+
+The GNN achieves higher recall than Random Forest but lower precision. In operational terms: Random Forest is the right choice when every investigator flag must be actionable. The GNN is the right choice when catching maximum fraud volume is the priority and the team has capacity to filter false positives.
 
 ## Author
 
